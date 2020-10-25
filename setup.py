@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setup(
+setup_args(
     name="mlprep", 
     version="0.0.1",
     author="Lasse Schmidt",
