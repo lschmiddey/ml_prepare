@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup_args = dict(
-    name="mlprep-lschmiddey", 
+    name="mlprep-ls", 
     version="0.0.1",
     author="Lasse Schmidt",
     author_email="lasse.schmidt@live.de",
