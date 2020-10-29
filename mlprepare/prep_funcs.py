@@ -2,9 +2,8 @@ import numpy as np
 import pandas as pd
 import pickle
 from sklearn.model_selection import train_test_split
-#from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import re
-
 
 
 
@@ -65,7 +64,7 @@ def split_df(df, x_cols, dep_var, test_size, split_mode='random', split_var=None
     '''
     if split_mode == 'random':
         from sklearn.model_selection import train_test_split
-        X_train, X_test, y_train, y_test = train_test_split(df[x_cols], df_1[dep_var], test_size=test_size)
+        X_train, X_test, y_train, y_test = train_test_split(df[x_cols], df[dep_var], test_size=test_size)
     elif split_mode == 'on_split_id':
         if split_var is None:
             print('Give name of split_var')
@@ -189,4 +188,4 @@ def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=No
             return X_train, X_test, y_train, y_test, scaler
 
     else:
-        print('standardizer can either be StandardScaler or MinMaxScaler')    
+        print('standardizer can either be StandardScaler or MinMaxScaler')   

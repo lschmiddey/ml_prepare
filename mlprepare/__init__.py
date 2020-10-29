@@ -1,5 +1,1 @@
-from . import mlprepare
-
-__all__ = [
-    'mlprepare'
-]
+from mlprepare.prep_funcs import *
