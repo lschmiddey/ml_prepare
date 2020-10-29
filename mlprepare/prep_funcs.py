@@ -62,6 +62,9 @@ def split_df(df, x_cols, dep_var, test_size, split_mode='random', split_var=None
     Function to split your data. You can split randomly, on a defined variable, or based on a condition.
     Split_mode can take three values: random, on_split_id, on_condition
     '''
+    x_cols = list(df_1.columns)
+    x_cols.remove(dep_var)
+    
     if split_mode == 'random':
         from sklearn.model_selection import train_test_split
         X_train, X_test, y_train, y_test = train_test_split(df[x_cols], df[dep_var], test_size=test_size)
@@ -89,15 +92,15 @@ def split_df(df, x_cols, dep_var, test_size, split_mode='random', split_var=None
             X_test = X_test[x_cols]
     elif split_mode == 'on_condition':
         if cond is None:
-            print('You have to specify cond, for example like so: cond = (df_1.Fake_Year<1999) | (df_1.Fake_Month<6)')
+            print('You have to specify cond, for example like so: cond = (df.Fake_Year<1999) | (df.Fake_Month<6)')
         else:
             train_idx = np.where( cond)[0]
             test_idx = np.where(~cond)[0]
 
-            X_train = df_1.iloc[train_idx]
+            X_train = df.iloc[train_idx]
             y_train = X_train[dep_var]
             X_train = X_train[cols]
-            X_test = df_1.iloc[test_idx]
+            X_test = df.iloc[test_idx]
             y_test = X_test[dep_var]
             X_test = X_test[cols]
     else:
