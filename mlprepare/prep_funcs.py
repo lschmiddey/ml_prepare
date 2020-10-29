@@ -62,7 +62,7 @@ def split_df(df, dep_var, test_size, split_mode='random', split_var=None, cond=N
     Function to split your data. You can split randomly, on a defined variable, or based on a condition.
     Split_mode can take three values: random, on_split_id, on_condition
     '''
-    x_cols = list(df_1.columns)
+    x_cols = list(df.columns)
     x_cols.remove(dep_var)
     
     if split_mode == 'random':
@@ -99,10 +99,10 @@ def split_df(df, dep_var, test_size, split_mode='random', split_var=None, cond=N
 
             X_train = df.iloc[train_idx]
             y_train = X_train[dep_var]
-            X_train = X_train[cols]
+            X_train = X_train[x_cols]
             X_test = df.iloc[test_idx]
             y_test = X_test[dep_var]
-            X_test = X_test[cols]
+            X_test = X_test[x_cols]
     else:
         print('Something is not working right, did you specify the split_mode?')
 
@@ -130,17 +130,17 @@ def cat_transform(X_train, X_test, cat_type, path=''):
 
 def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=None, transform_y=True, path='', standardizer='StandardScaler'):
     "Function to standardize the continuous variables and save the standardizer. This is done on the train dataset and used for the test dataset. Standardizer can either be StandardScaler or MinMaxScaler. If id_type is defined the function will ignore these columns from standardization. If transform_y is False the function will not transform the target variable."
+    cont_type = list(X_train.columns)
     if standardizer =='StandardScaler':
         scaler = StandardScaler()
         if cat_type==None:
-            cont_type = list(X_train.columns)
             cont_type.remove(id_type)
         elif id_type==None:
-            list(set(X_train.columns) - set(id_type))
+            list(set(cont_type) - set(cat_type))
         elif cat_type==None and id_type==None:
-            cont_type = list(X_train.columns)
+            cont_type = cont_type
         else:
-            cont_type = list(set(X_train.columns) - set(cat_type))
+            cont_type = list(set(cont_type) - set(cat_type))
             cont_type.remove(id_type)
 
         X_train[cont_type] = scaler.fit_transform(X_train[cont_type])
@@ -163,14 +163,13 @@ def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=No
     elif standardizer =='MinMaxScaler':
         scaler = MinMaxScaler()
         if cat_type==None:
-            cont_type = list(X_train.columns)
             cont_type.remove(id_type)
         elif id_type==None:
-            list(set(X_train.columns) - set(id_type))
+            list(set(cont_type) - set(cat_type))
         elif cat_type==None and id_type==None:
-            cont_type = list(X_train.columns)
+            cont_type = cont_type
         else:
-            cont_type = list(set(X_train.columns) - set(cat_type))
+            cont_type = list(set(cont_type) - set(cat_type))
             cont_type.remove(id_type)
 
         X_train[cont_type] = scaler.fit_transform(X_train[cont_type])
