@@ -57,7 +57,7 @@ def df_to_type(df, date_type=None, cont_type=None, cat_type=None):
     return df  
 
 
-def split_df(df, x_cols, dep_var, test_size, split_mode='random', split_var=None, cond=None):
+def split_df(df, dep_var, test_size, split_mode='random', split_var=None, cond=None):
     '''
     Function to split your data. You can split randomly, on a defined variable, or based on a condition.
     Split_mode can take three values: random, on_split_id, on_condition
