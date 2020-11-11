@@ -116,8 +116,8 @@ def cat_transform(X_train, X_test, cat_type, path=''):
     for i in cat_type:
         dict_ = dict( enumerate(X_train[i].cat.categories ) )
         dict_inv_ = {v: k for k, v in dict_.items()}
-        X_train[i] = X_train[i].map(dict_inv_)
-        X_test[i] = X_test[i].map(dict_inv_)
+        X_train[i] = X_train[i].map(dict_inv_).astype(int)
+        X_test[i] = X_test[i].map(dict_inv_).astype(int)
         dict_list.append(dict_)
         dict_inv_list.append(dict_inv_list)
     dict_name = f'{path}dict_list_cat'
@@ -133,7 +133,9 @@ def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=No
     cont_type = list(X_train.columns)
     if standardizer =='StandardScaler':
         scaler = StandardScaler()
-        if cat_type==None:
+        if cat_type==None and id_type==None:
+            cont_type = cont_type
+        elif cat_type==None:
             cont_type.remove(id_type)
         elif id_type==None:
             list(set(cont_type) - set(cat_type))
@@ -152,7 +154,7 @@ def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=No
             y_train = scaler_y.fit_transform(y_train.values.reshape(-1, 1))
             y_test = scaler_y.transform(y_test.values.reshape(-1, 1))
             scaler_y_name = f'{path}StandardScaler_y'
-            save_obj(scaler_y, scaler_name)
+            save_obj(scaler_y, scaler_y_name)
         else:
             pass
         if transform_y:
@@ -162,12 +164,12 @@ def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=No
 
     elif standardizer =='MinMaxScaler':
         scaler = MinMaxScaler()
-        if cat_type==None:
+        if cat_type==None and id_type==None:
+            cont_type = cont_type
+        elif cat_type==None:
             cont_type.remove(id_type)
         elif id_type==None:
             list(set(cont_type) - set(cat_type))
-        elif cat_type==None and id_type==None:
-            cont_type = cont_type
         else:
             cont_type = list(set(cont_type) - set(cat_type))
             cont_type.remove(id_type)
@@ -181,7 +183,7 @@ def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=No
             y_train = scaler_y.fit_transform(y_train.values.reshape(-1, 1))
             y_test = scaler_y.transform(y_test.values.reshape(-1, 1))
             scaler_y_name = f'{path}MinMaxScaler_y'
-            save_obj(scaler_y, scaler_name)
+            save_obj(scaler_y, scaler_y_name)
         else:
             pass
         if transform_y:
