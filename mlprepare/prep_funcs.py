@@ -5,7 +5,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import re
 
+class SklearnWrapper:
+    def __init__(self, transform: typing.Callable):
+        self.transform = transform
 
+    def __call__(self, df):
+        transformed = self.transform.fit_transform(df.values)
+        return pd.DataFrame(transformed, columns=df.columns, index=df.index)
 
 def save_obj(obj, name ):
     "Save object as a pickle file to a given path."
@@ -193,3 +199,19 @@ def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=No
 
     else:
         print('standardizer can either be StandardScaler or MinMaxScaler')   
+        
+def cont_standardize_groupby(df, cont_type=None, id_type=None, path='', standardizer='StandardScaler'):
+    "Function to standardize data but grouped by a variable (id_type). It only standardizes for the continuous data types and saves the StandardScaler to Memory."
+    scaler = StandardScaler()
+    
+    if id_type is None:
+        return print('id_type has to be filled!')
+    if cont_type is None:
+        return print('cont_type has to be filled!')
+    
+    var_list = cont_type + list(id_type.split(","))
+    df_rescaled = df[var_list].groupby(id_type).apply(SklearnWrapper(scaler)).drop(id_type, axis="columns")
+    df[cont_type] = df_rescaled
+    scaler_name = f'{path}StandardScaler'
+    save_obj(scaler, scaler_name)
+    return df, scaler
