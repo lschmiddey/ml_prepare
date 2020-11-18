@@ -4,6 +4,7 @@ import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import re
+import typing
 
 class SklearnWrapper:
     def __init__(self, transform: typing.Callable):
