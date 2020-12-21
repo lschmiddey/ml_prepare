@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup_args = dict(
     name="mlprep-ls", 
-    version="0.1.12",
+    version="0.1.13",
     author="Lasse Schmidt",
     author_email="lasse.schmidt@live.de",
     description="Small package for preprocessing data.",
