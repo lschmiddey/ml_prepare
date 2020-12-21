@@ -126,7 +126,7 @@ def cat_transform(X_train, X_test, cat_type, path=''):
         X_train[i] = X_train[i].map(dict_inv_).astype(int)
         X_test[i] = X_test[i].map(dict_inv_).astype(int)
         dict_list.append(dict_)
-        dict_inv_list.append(dict_inv_list)
+        dict_inv_list.append(dict_inv_)
     dict_name = f'{path}dict_list_cat'
     save_obj(dict_list, dict_name)
     dict_inv_name = f'{path}dict_inv_list_cat'
@@ -145,7 +145,7 @@ def cont_standardize(X_train, X_test, y_train, y_test, cat_type=None, id_type=No
         elif cat_type==None:
             cont_type.remove(id_type)
         elif id_type==None:
-            list(set(cont_type) - set(cat_type))
+            cont_type = list(set(cont_type) - set(cat_type))
         elif cat_type==None and id_type==None:
             cont_type = cont_type
         else:
