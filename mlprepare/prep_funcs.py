@@ -119,14 +119,13 @@ def split_df(df, dep_var, test_size, split_mode='random', split_var=None, cond=N
 def cat_transform(X_train, X_test, cat_type, path=''):
     "Transforms categorical variables to int and saving the mapping into a dictionary. This is done on the training dataset."
     dict_list = []
-    dict_inv_list = []
     for i in cat_type:
         dict_ = dict( enumerate(X_train[i].cat.categories ) )
         dict_inv_ = {v: k for k, v in dict_.items()}
         X_train[i] = X_train[i].map(dict_inv_).astype(int)
         X_test[i] = X_test[i].map(dict_inv_).astype(int)
         dict_list.append(dict_)
-        dict_inv_list.append(dict_inv_)
+    dict_inv_list = [{v: k for k, v in dict_list[i].items()} for i, dict_ in enumerate(dict_list)]
     dict_name = f'{path}dict_list_cat'
     save_obj(dict_list, dict_name)
     dict_inv_name = f'{path}dict_inv_list_cat'
