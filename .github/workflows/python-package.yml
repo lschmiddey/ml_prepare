@@ -39,5 +39,5 @@ jobs:
         echo "PYTHONPATH=mlprepare" >> $GITHUB_ENV
     - name: Test with pytest
       run: |
-        pytest mlprepare/
+        pytest
 
