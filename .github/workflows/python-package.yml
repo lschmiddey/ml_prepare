@@ -36,7 +36,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: set pythonpath
       run: |
-        export PYTHONPATH=mlprepare
+        echo "::set-env name=PYTHONPATH::home/runner/work/mlprepare"
     - name: Test with pytest
       run: |
         pytest mlprepare/
