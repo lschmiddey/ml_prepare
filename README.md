@@ -7,10 +7,7 @@ Repository containing functions for preprocessing data for machine learning proj
 
 # Import module
 
-```
-import mlprepare as mlp
-
-``` 
+```import mlprepare as mlp``` 
 
 # How to use it
 
