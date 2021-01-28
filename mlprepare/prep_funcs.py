@@ -138,6 +138,8 @@ class MLPrepare:
                 dict_ = dict(enumerate(X_train_[i].cat.categories, 1))
                 dict_ = {**def_dict, **dict_}
                 dict_inv_ = {v: k for k, v in dict_.items()}
+                if 0 in X_test_[i].cat.categories:
+                    X_test_[i].cat.categories = X_test_[i].cat.categories +1
                 X_test_[i] = X_test_[i].cat.add_categories(0)
             else:
                 dict_ = dict(enumerate(X_train_[i].cat.categories))
