@@ -1,15 +1,17 @@
-from prep_funcs import *
+import prep_funcs as mlp
+import pandas as pd
+import numpy as np
 import unittest
 
 class TestCases(unittest.TestCase):
     def test_ifnone(self):
         a, b = None, 5
         expected_result = 5
-        self.assertEqual(ifnone(a,b), expected_result)
+        self.assertEqual(mlp.ifnone(a,b), expected_result)
         
         a,b = 10,5
         expected_result = 10
-        self.assertEqual(ifnone(a,b), expected_result)
+        self.assertEqual(mlp.ifnone(a,b), expected_result)
         
     def test_df_to_type(self):
         
@@ -33,8 +35,7 @@ class TestCases(unittest.TestCase):
         expected_rows = 5
         expected_cols = 18
         
-        ml_instance = MLPrepare()
-        test_result = ml_instance.df_to_type(df, date_type, continuous_type, categorical_type)
+        test_result = mlp.df_to_type(df, date_type, continuous_type, categorical_type)
         
         self.assertEqual(test_result.shape[0], expected_rows)
         self.assertEqual(test_result.shape[1], expected_cols)
@@ -87,8 +88,7 @@ class TestCases(unittest.TestCase):
 
         exptd_X_train_shape, exptd_X_test_shape, exptd_y_train_shape, exptd_y_test_shape = (3, 17), (2, 17), (3,), (2,)
         
-        ml_instance = MLPrepare()
-        X_train, X_test, y_train, y_test = ml_instance.split_df(df=df, dep_var=dep_var, \
+        X_train, X_test, y_train, y_test = mlp.split_df(df=df, dep_var=dep_var, \
                                                                 test_size=0.3, split_mode='random', split_var=None, cond=None)
         
 
@@ -100,7 +100,6 @@ class TestCases(unittest.TestCase):
         
     def test_cat_transform(self):
         
-        ml_instance = MLPrepare()
         
         categorical_type = ['Sex', 'Cabin']
 
@@ -134,7 +133,7 @@ class TestCases(unittest.TestCase):
         
         exptd_train_shape, exptd_test_shape, exptd_dict_len, exptd_inv_dict_len = (5, 10), (5, 10), 3, 3
         
-        X_train_, X_test_, dict_list, dict_inv_list = ml_instance.cat_transform(train_df, test_df, categorical_type, path='')
+        X_train_, X_test_, dict_list, dict_inv_list = mlp.cat_transform(train_df, test_df, categorical_type, path='')
         
         self.assertEqual(X_train_.shape, exptd_train_shape)
         self.assertEqual(X_test_.shape, exptd_test_shape)
@@ -142,8 +141,6 @@ class TestCases(unittest.TestCase):
         self.assertEqual(len(dict_inv_list[0]), exptd_inv_dict_len)
         
     def test_cont_standardize(self):
-        
-        ml_instance = MLPrepare()
         
         categorical_type = ['Sex', 'Cabin']
 
@@ -169,7 +166,7 @@ class TestCases(unittest.TestCase):
         
         exptd_age_mean = 0.0
         
-        X_train_2, X_test_2, y_train_2, y_test_2, scaler = ml_instance.cont_standardize(traindata_df, testdata_df, y_train, y_test, cat_type=categorical_type, transform_y=False, id_type='PassengerId', path='', standardizer='StandardScaler')
+        X_train_2, X_test_2, y_train_2, y_test_2, scaler = mlp.cont_standardize(traindata_df, testdata_df, y_train, y_test, cat_type=categorical_type, transform_y=False, id_type='PassengerId', path='', standardizer='StandardScaler')
         
         Age_mean = X_train_2.Age.mean()
 
@@ -180,8 +177,6 @@ class TestCases(unittest.TestCase):
         self.assertEqual(Age_mean, exptd_age_mean)
         
     def test_cont_standardize_groupby(self):
-        
-        ml_instance = MLPrepare()
         
         id_type='PassengerId'
         cont_type = ['Age']
@@ -205,7 +200,7 @@ class TestCases(unittest.TestCase):
         
         exptd_std_age = 0.48145422560319073
         
-        df_, scaler = ml_instance.cont_standardize_groupby(df=traindata_df, cont_type=cont_type, id_type=id_type, path='', standardizer='StandardScaler')
+        df_, scaler = mlp.cont_standardize_groupby(df=traindata_df, cont_type=cont_type, id_type=id_type, path='', standardizer='StandardScaler')
         
         self.assertEqual(df_.shape, exptd_df_shape)
         self.assertAlmostEqual(df_.loc[201,'Age'], exptd_std_age)
