@@ -11,4 +11,4 @@ Repository containing functions for preprocessing data for machine learning proj
 
 # How to use it
 
-[Tutorial](https://github.com/lschmiddey/ml_prepare/blob/main/2021-01-28-Tutorial-mlp.ipynb)
+[Tutorial](https://github.com/lschmiddey/ml_prepare/blob/main/Tutorial_mlp.ipynb)
