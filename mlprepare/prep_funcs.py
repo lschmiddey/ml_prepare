@@ -85,7 +85,7 @@ def split_df(df: pd.DataFrame, dep_var:str, test_size: float, split_mode='random
             unique_id_array = list(df[split_var].unique())
 
             # split into train and test data based on uid
-            test_size=0.33
+            test_size=test_size
             cnt_uid = len(unique_id_array)
             len_test = np.round(cnt_uid*test_size).astype(int)
             len_train = cnt_uid - len_test
